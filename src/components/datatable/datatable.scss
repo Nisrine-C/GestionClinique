@@ -1,0 +1,92 @@
+.datatable {
+  height: 600px;
+  padding: 20px;
+  
+  .datatableTitle{
+    font-size: 30px;
+    color: gray;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .link{
+      text-decoration: none;
+      color: #fff;
+      background-color: #6439ff;
+      font-size: 16px;
+      font-weight: 400;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #4e1dfd;
+      }
+    }
+  }
+
+  .cellWithImg {
+    display: flex;
+    align-items: center;
+
+    .cellImg {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+  }
+
+  .cellWithStatus {
+    padding: 5px;
+    border-radius: 5px;
+
+    &.active {
+      background-color: rgba(0, 128, 0, 0.05);
+      color: green;
+    }
+    &.pending {
+      background-color: rgba(255, 217, 0, 0.05);
+      color: goldenrod;
+    }
+    &.passive {
+      background-color: rgba(255, 0, 0, 0.05);
+      color: crimson;
+    }
+  }
+
+  .cellAction {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .viewButton {
+      padding: 4px 10px;
+      border-radius: 5px;
+      color: #6439ff;
+      border: 1px dotted #6439ff;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #6439ff;
+        color: #fff;
+        transition: all .1s ease-in-out;
+      }
+    }
+    
+    .deleteButton {
+      padding: 4px 10px;
+      border-radius: 5px;
+      background-color: crimson;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgb(199, 5, 43);
+        transition: all .1s ease-in-out;
+      }
+    }
+  }
+}

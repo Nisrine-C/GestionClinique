@@ -1,0 +1,148 @@
+.app.dark {
+  background-color: #111;
+  color: rgb(156, 156, 156);
+
+  .chartGrid {
+    stroke: rgba(228, 228, 228, 0.219);
+  }
+
+  .table {
+    background-color: #111;
+
+    .tableCell {
+      color: gray;
+    }
+  }
+
+  .navbar {
+    color: #999;
+    border-color: #333;
+
+    .search {
+      border-color: gray;
+    }
+  }
+
+  .sidebar {
+    background-color: #111;
+    border-color: #333;
+
+    .top {
+      .logo {
+        color: #999;
+      }
+    }
+    hr {
+      border-color: #333;
+    }
+
+    ul {
+      li {
+        &:hover {
+          background-color: #333;
+        }
+
+        .icon {
+          color: #999;
+        }
+      }
+    }
+  }
+
+  .datatable {
+    .link{
+      color: #6439ff;
+      background-color: transparent;
+      border: 1px solid #6439ff;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    .datagrid {
+      color: gray !important;
+      border: none;
+
+      .viewButton,
+      .cellWithStatus {
+        color: gray;
+        background-color: transparent;
+        border: none;
+      }
+
+      .viewButton:hover {
+        color: #6439ff;
+      }
+
+      .deleteButton {
+        color: crimson;
+        background-color: transparent;
+      }
+
+      .css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar {
+        color: gray !important;
+      }
+    }
+  }
+
+  input{
+      background-color: transparent;
+  }
+
+  .newContainer {
+    h1 {
+      color: gray;
+    }
+
+    input {
+      border-bottom: 1.5px solid gray !important;
+    }
+
+    button{
+      color: #6439ff !important;
+      background-color: transparent !important;
+      border: 1px solid #6439ff !important;
+
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  .singleContainer {
+    h1 {
+      color: gray;
+    }
+
+    input {
+      border-bottom: 1.5px solid gray !important;
+      color: gray;
+    }
+
+    button{
+      color: #6439ff !important;
+      background-color: transparent !important;
+      border: 1px solid #6439ff !important;
+
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+
+    .editButton {
+      color: gray !important;
+
+      &:hover {
+        color: #6439ff !important;
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  .widget {
+    .title {
+      color: rgb(160, 160, 160);
+    }
+  }
+}

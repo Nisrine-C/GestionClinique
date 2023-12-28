@@ -1,0 +1,172 @@
+.single {
+  display: flex;
+  width: 100%;
+  .singleContainer {
+    flex: 6;
+
+    h1.title {
+      font-size: 30px;
+      color: #6439ff;
+      margin: 20px;
+      text-align: center;
+    }
+    
+    .top {
+      padding: 20px;
+      gap: 20px;
+      display: flex;
+      justify-content: center;
+
+      .card {
+        -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+        padding: 40px;
+        position: relative;
+        width: 50%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+
+        .editButton {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 10px;
+          font-size: 16px;
+          color: #7451f8;
+          background-color: #7551f818;
+          cursor: pointer;
+          border-radius: 0px 0px 0px 5px;
+
+          &:hover {
+            background-color: #6439ff;
+            color: #fff;
+            transition: all .1s ease-in-out;
+          }
+        }
+
+        .item {
+          gap: 20px;
+
+          .itemImg {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 30px;
+            border: 1px solid #6439ff;
+          }
+
+          .details {
+            .itemTitle {
+              margin-bottom: 10px;
+              color: #555;
+            }
+
+            .detailItem {
+              margin-bottom: 10px;
+              font-size: 14px;
+
+              .itemKey {
+                font-weight: bold;
+                color: gray;
+                margin-right: 5px;
+              }
+
+              .itemValue {
+                font-weight: 300;
+              }
+            }
+          }
+        }
+
+        .bottom {
+          padding: 10px;
+          display: flex;
+        
+          .left {
+            flex: 1;
+            text-align: center;
+        
+            img {
+              width: 150px;
+              height: 150px;
+              border-radius: 50%;
+              border: 1px solid #6439ff;
+              object-fit: cover;
+            }
+          }
+        
+          .right {
+            flex: 2;
+        
+            form {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 30px;
+              justify-content: space-around;
+        
+              .formInput {
+                width: 40%;
+        
+                label {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: 10px;
+                  font-weight: 700;
+        
+                  .icon {
+                    cursor: pointer;
+                    font-size: 1.8rem;
+        
+                    &:hover {
+                      transform: scale(1.1);
+                      transition: all .1s ease-in-out;
+                    }
+                  }
+                }
+        
+                input {
+                  width: 100%;
+                  padding: 5px;
+                  border: none;
+                  border-bottom: 1.5px solid #6439ff;
+                  font-size: 16px;
+        
+                  &:focus {
+                    outline: 0;
+                  }
+                }
+              }
+        
+              button {
+                width: 150px;
+                border: 0;
+                color: #fff;
+                background-color: #6439ff;
+                font-size: 16px;
+                font-weight: 400;
+                padding: 10px;
+                border-radius: 5px;
+                margin-top: 30px;
+                cursor: pointer;
+          
+                &:hover {
+                  background-color: #4e1dfd;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .title {
+      font-size: 16px;
+      color: lightgray;
+      margin-bottom: 20px;
+    }
+  }
+}
