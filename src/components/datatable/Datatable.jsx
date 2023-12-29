@@ -1,23 +1,29 @@
 import "./datatable.scss";
+import axios from 'axios';
 import { DataGrid } from "@mui/x-data-grid";
-import { patientColumns, patientRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-const Datatable = () => {
-  const [data, setData] = useState(patientRows);
+const Datatable = ({ title, columns, apiUrl, newLink ,buttonTitle}) => {
+  const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
-    if (window.confirm("Êtes-vous sûr de retirer le patient?")) {
-      setData(data.filter((item) => item.id !== id));
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(apiUrl);
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
-  useEffect(() => {
-    data.map(e => {
-      // console.log("test", e.id);
-    });
-  });
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`${apiUrl}/${id}`);
+      fetchData();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const actionColumn = [
     {
@@ -27,7 +33,9 @@ const Datatable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={`/patients/${params.row.id}`} state={{ patient : params.row }} style={{ textDecoration: "none" }}>
+            <Link to={`/${title}/${params.row.id}`}
+              state={{ item: params.row }}
+              style={{ textDecoration: "none" }}>
               <div className="viewButton">Consulter</div>
             </Link>
             <div
@@ -41,21 +49,27 @@ const Datatable = () => {
       },
     },
   ];
+  useEffect(() => {
+    fetchData();
+  }, []);
+  useEffect(() => {
+    fetchData();
+  }, [title]);
+  
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Liste des patients :
-        <Link to="/patients/new" className="link">
-          Ajouter un patient
+        Liste des {title} :
+        <Link to={newLink} className="link">
+          {buttonTitle}
         </Link>
       </div>
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={patientColumns.concat(actionColumn)}
+        columns={columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
         disableRowSelectionOnClick
       />
     </div>

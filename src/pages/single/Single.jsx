@@ -3,46 +3,68 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
+import axios from 'axios';
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 
-const Single = ({ inputs }) => {
-  const location = useLocation();
+const Single = ({ inputs, apiUrl, title, parent }) => {
+  const [formData, setFormData] = useState({});
+  const { elementId } = useParams();
   const navigate = useNavigate();
-  const [file, setFile] = useState("");
+  const [element, setElement] = useState({});
   const [disable, setDisable] = useState(true);
-  const [formData, setFormData] = useState(location.state.patient);
+  const [loading, setLoading] = useState(true);
   
+  const getElement = async () => {
+    console.log(elementId);
+    try {
+      const response = await axios.get(`${apiUrl}/${elementId}`);
+      console.log(response)
+      setElement(response.data.element);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const { name, value } = e.target;
+  setElement((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("in submit")
 
-    // If a new file is selected, convert it to a data URL
-    const fileDataURL = file ? URL.createObjectURL(file) : null;
-
-    const updatedPatient = {
-      ...formData,
-      img: fileDataURL || location.state.patient.img, // Use the new image data if available, otherwise keep the existing image
-    };
-
-    // You can now use the updatedPatient data as needed
-    console.log("Updated patient data:", updatedPatient);
-    // Handle saving the updated data, e.g., dispatch an action, make an API call, etc.
-    alert("Données mises à jour avec succès!");
-    // navigate("/patients");
+    const formDataToSend = {};
+      for (const key in element) {
+        if (Object.hasOwnProperty.call(element, key)) {
+          formDataToSend[key] = element[key];
+        }
+      }
+    console.log(formDataToSend);
+    navigate({parent});
+    try {
+      const response = await axios.put(`${apiUrl}/${elementId}`, formDataToSend);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   function toggleDisabled() {
     setDisable(false);
   }
+
+  useEffect(() => {
+    getElement();
+  }, []);
+
 
 
   return (
@@ -57,65 +79,40 @@ const Single = ({ inputs }) => {
           <div className="card">
             <div className="editButton" onClick={toggleDisabled}>Éditer</div>
             <div className="item">
-              <img
-               src={
-                file
-                  ? URL.createObjectURL(file)
-                  : location.state.patient.img
-              }
-                alt=""
-                className="itemImg"
-              />
               <div className="bottom">
               <div className="right">
                 <form onSubmit={handleSubmit}>
-                  <div className="formInput">
-                    <label htmlFor="file">
-                      Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                    </label>
-                    <input
-                      type="file"
-                      id="file"
-                      onChange={(e) => setFile(e.target.files[0])}
-                      style={{ display: "none" }}
-                      disabled = {disable}
-                    />
-                  </div>
-
                   {inputs.map((input) => (
                     <div className="formInput" key={input.id}>
                       <label>{input.label}</label>
-                      <input type={input.type} placeholder={input.placeholder} name={input.name} value={formData[input.name] || ""} onChange={handleInputChange} disabled = {disable}/>
+                      {input.type === "select" ? (
+                        <select
+                          name={input.name}
+                          onChange={handleInputChange}
+                          value={element[input.name] || ""}
+                          disabled={disable}>
+                          {input.options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          type={input.type}
+                          placeholder={input.placeholder}
+                          name={input.name}
+                          value={element[input.name] || ""}
+                          onChange={handleInputChange}
+                          disabled={disable}
+                        />
+                      )}
                     </div>
                   ))}
                   <button type="submit">Valider</button>
                 </form>
               </div>
             </div>
-
-
-              
-              {/* <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
-                <div className="detailItem">
-                  <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gmail.com</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+1 2345 67 89</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Address:</span>
-                  <span className="itemValue">
-                    Elton St. 234 Garden Yd. NewYork
-                  </span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Country:</span>
-                  <span className="itemValue">USA</span>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

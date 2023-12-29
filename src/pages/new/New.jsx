@@ -1,44 +1,45 @@
 import "./new.scss";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import axios from 'axios';
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 
-const New = ({ inputs, title, patients }) => {
-  const [file, setFile] = useState("");
+const New = ({ inputs, apiUrl, title,parent}) => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setFormData(values => ({...values, [name]: value}))
-    console.log(formData, e.target.value);
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+    ...prevData,
+    [name]: value,
+    }));
+    console.log(formData)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newPatient = {
-      id: patients.length + 1,
-      fullName: formData.fullName,
-      img: URL.createObjectURL(file),
-      email: formData.email,
-      birthDate: formData.birthDate,
-      phone: formData.phone,
-      status: "pending", // You can set a default status or modify as needed
-      address: formData.address
-    };
-
-    // Update patients array
-    patients.push(newPatient);
-    // You might want to use the state to trigger a re-render, or better yet, use React state to manage your data.
-    // For simplicity, I'm directly modifying the array here.
-    console.log("New patient added:", newPatient);
-    navigate("/patients");
+    const formDataToSend = {};
+      for (const key in formData) {
+        if (Object.hasOwnProperty.call(formData, key)) {
+          formDataToSend[key] = formData[key];
+        }
+      }
+    console.log(formDataToSend)
+    try {
+      const response = await axios.post(`${apiUrl}/`, formDataToSend);
+      console.log(response);
+      console.log(parent);
+      navigate(parent);
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
-
 
   return (
     <div className="new">
@@ -49,34 +50,28 @@ const New = ({ inputs, title, patients }) => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
           <div className="right">
             <form onSubmit={handleSubmit}>
-              <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div>
-
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} name={input.name} value={input.formData} onChange={handleChange}/>
+                  {input.type === "select" ? (
+                    <select name={input.name} onChange={handleChange} >
+                      {input.options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={input.type}
+                      placeholder={input.placeholder}
+                      name={input.name}
+                      value={formData[input.name]}
+                      onChange={handleChange}
+                    />
+                  )}
                 </div>
               ))}
               <button type="submit">Valider</button>

@@ -43,11 +43,13 @@ const Sidebar = () => {
               <AccessibleIcon className="icon" />
               <span>Patients</span>
             </li>
-          </Link>
+          </Link >
+          <Link to="/medecins" style={{ textDecoration: "none" }}>
           <li>
             <PersonIcon className="icon" />
             <span>Médecins</span>
-          </li>
+            </li>
+          </Link>
           <li>
             <LocalHospitalIcon className="icon" />
             <span>Consultations</span>
@@ -61,10 +63,12 @@ const Sidebar = () => {
             <DescriptionIcon className="icon" />
             <span>Ordonnaces</span>
           </li>
+          <Link to="/pathologies" style={{ textDecoration: "none" }}>
           <li>
             <CoronavirusIcon className="icon" />
             <span>Pathologies</span>
           </li>
+          </Link>
         </ul>
       </div>
       <div className="bottom">
